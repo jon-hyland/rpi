@@ -1,0 +1,10 @@
+﻿{
+  "listenPort": 5001,
+  "errorRetentionMins": 60,
+  "interfaceNames": [
+    "eth0",
+    "ens160",
+    "primary",
+    "enp0s5"
+  ]
+}
