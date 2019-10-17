@@ -237,7 +237,7 @@ namespace Rpi
 
                 //add gpio handler
                 Log.WriteMessage("Service", $"Registering 'GPIO' HTTP handler..");
-                GpioHandler gpioHandler = new GpioHandler(_errorHandler, _config, _serviceStats);
+                GpioHandler gpioHandler = new GpioHandler(_errorHandler, _config, _serviceStats, _gpio);
                 _httpListener.RegisterHandler("gpio", gpioHandler);
 
                 //pre-init
