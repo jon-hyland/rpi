@@ -69,8 +69,15 @@ namespace Rpi.Gpio
             {
                 if (_pins[i] != null)
                 {
-                    _pins[i].PinMode = GpioPinDriveMode.Input;
-                    _pins[i].Write(false);
+                    try
+                    {
+                        _pins[i].PinMode = GpioPinDriveMode.Input;
+                        _pins[i].Write(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        _errorHandler?.LogError(ex);
+                    }
                 }
             }
 
