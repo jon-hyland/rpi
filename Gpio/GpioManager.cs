@@ -64,6 +64,16 @@ namespace Rpi.Gpio
             _pins[29] = null;
             _pins[30] = null;
             _pins[31] = null;
+
+            for (int i = 0; i < 32; i++)
+            {
+                if (_pins[i] != null)
+                {
+                    _pins[i].PinMode = GpioPinDriveMode.Input;
+                    _pins[i].Write(false);
+                }
+            }
+
             for (int i = 0; i < 32; i++)
                 if (_pins[i] != null)
                     _pins[i].PinMode = GpioPinDriveMode.Input;
