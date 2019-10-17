@@ -72,7 +72,6 @@ namespace Rpi.Gpio
                     try
                     {
                         _pins[i].PinMode = GpioPinDriveMode.Output;
-                        _pins[i].InputPullMode = GpioPinResistorPullMode.PullDown;
                         _pins[i].Write(false);
                     }
                     catch (Exception ex)
@@ -83,8 +82,20 @@ namespace Rpi.Gpio
             }
 
             for (int i = 0; i < 32; i++)
+            {
                 if (_pins[i] != null)
-                    _pins[i].PinMode = GpioPinDriveMode.Input;
+                {
+                    try
+                    {
+                        _pins[i].PinMode = GpioPinDriveMode.Input;
+                        _pins[i].InputPullMode = GpioPinResistorPullMode.PullDown;
+                    }
+                    catch (Exception ex)
+                    {
+                        _errorHandler?.LogError(ex);
+                    }
+                }
+            }
 
             //start thread
             _thread = new Thread(new ThreadStart(Polling_Thread))
