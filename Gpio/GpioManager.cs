@@ -294,7 +294,6 @@ namespace Rpi.Gpio
         private void Polling_Thread()
         {
             _signal.Set();
-            Stopwatch sw = new Stopwatch();
             while (true)
             {
                 try
@@ -302,9 +301,6 @@ namespace Rpi.Gpio
                     _lock.EnterWriteLock();
                     try
                     {
-                        //todo: remove
-                        sw.Restart();
-
                         //push data from 'output' buffer into pin holder
                         for (ushort i = 0; i < 8; i++)
                         {
@@ -343,9 +339,6 @@ namespace Rpi.Gpio
                                 continue;
                             _input2[i] = pin.Value;
                         }
-
-                        sw.Stop();
-                        Log.WriteMessage("Gpio", $"Poll Ms: {sw.ElapsedMilliseconds}");
                     }
                     finally
                     {
