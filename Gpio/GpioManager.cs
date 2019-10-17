@@ -2,6 +2,7 @@
 using Rpi.Json;
 using Rpi.Output;
 using System;
+using System.Diagnostics;
 using System.Threading;
 using Unosquare.RaspberryIO;
 using Unosquare.RaspberryIO.Abstractions;
@@ -111,6 +112,7 @@ namespace Rpi.Gpio
         private void Polling_Thread()
         {
             _signal.Set();
+            Stopwatch sw = new Stopwatch();
             while (true)
             {
                 try
@@ -118,12 +120,15 @@ namespace Rpi.Gpio
                     _lock.EnterWriteLock();
                     try
                     {
+                        sw.Restart();
                         for (int i = 0; i < 32; i++)
                         {
                             if (_pins[i] == null)
                                 continue;
                             _values[i] = _pins[i].Read();
                         }
+                        sw.Stop();
+                        Log.WriteMessage("Gpio", $"Polling took {sw.ElapsedMilliseconds} ms");
                     }
                     finally
                     {
@@ -135,7 +140,7 @@ namespace Rpi.Gpio
                     _errorHandler?.LogError(ex);
                 }
 
-                Thread.Sleep(100);
+                Thread.Sleep(1000);
             }
         }
 
@@ -176,11 +181,7 @@ namespace Rpi.Gpio
                 writer.WriteStartObject("gpio");
                 writer.WriteStartArray("values");
                 for (int i = 0; i < 32; i++)
-                {
-                    writer.WriteStartObject();
-                    writer.WritePropertyValue($"Gpio_{i}", _values[i] ? 1 : 0);
-                    writer.WriteEndObject();
-                }
+                    writer.WriteValue(_values[i] ? 1 : 0);
                 writer.WriteEndArray();
                 writer.WriteEndObject();
             }

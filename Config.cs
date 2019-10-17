@@ -31,7 +31,7 @@ namespace Rpi
         public string DeviceSerial => _deviceSerial;
         public string DeviceName { get => _storage.DeviceName; set { _storage.DeviceName = value; _storage.SaveSettings(); } }
         public string ServiceName => "Rpi";
-        public string ServiceVersion => "1.0.8";
+        public string ServiceVersion => "1.0.9";
         public string ApplicationPath => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         public int ListenPort => _root.GetValue("listenPort", 5001);
         public TimeSpan ErrorRetention => TimeSpan.FromMinutes(_root.GetValue("errorRetentionMins", 60));
