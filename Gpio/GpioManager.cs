@@ -175,8 +175,12 @@ namespace Rpi.Gpio
             {
                 writer.WriteStartObject("gpio");
                 writer.WriteStartArray("values");
-                foreach (bool value in _values)
-                    writer.WriteValue(value ? 1 : 0);
+                for (int i = 0; i < 32; i++)
+                {
+                    writer.WriteStartObject();
+                    writer.WritePropertyValue($"Gpio_{i}", _values[i] ? 1 : 0);
+                    writer.WriteEndObject();
+                }
                 writer.WriteEndArray();
                 writer.WriteEndObject();
             }
