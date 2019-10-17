@@ -37,7 +37,7 @@ namespace Rpi.Gpio
             _pins[2] = Pi.Gpio[P1.Pin03];
             _pins[3] = Pi.Gpio[P1.Pin05];
             _pins[4] = Pi.Gpio[P1.Pin07];
-            _pins[5] = Pi.Gpio[P1.Pin26];
+            _pins[5] = Pi.Gpio[P1.Pin29];
             _pins[6] = Pi.Gpio[P1.Pin31];
             _pins[7] = Pi.Gpio[P1.Pin26];
             _pins[8] = Pi.Gpio[P1.Pin24];
