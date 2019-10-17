@@ -72,6 +72,7 @@ namespace Rpi.Gpio
                     try
                     {
                         _pins[i].PinMode = GpioPinDriveMode.Output;
+                        _pins[i].InputPullMode = GpioPinResistorPullMode.PullDown;
                         _pins[i].Write(false);
                     }
                     catch (Exception ex)
