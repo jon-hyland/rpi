@@ -96,6 +96,9 @@ namespace Rpi
                 //finish init on another thread, finish start
                 Task.Run(() =>
                 {
+                    //start gpio loop
+                    _gpio.Initialize();
+                    
                     //wait for ip assignment
                     WaitForIPAssignment();
 
