@@ -71,7 +71,7 @@ namespace Rpi.Gpio
                 {
                     try
                     {
-                        _pins[i].PinMode = GpioPinDriveMode.Input;
+                        _pins[i].PinMode = GpioPinDriveMode.Output;
                         _pins[i].Write(false);
                     }
                     catch (Exception ex)
