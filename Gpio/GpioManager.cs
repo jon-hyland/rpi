@@ -51,8 +51,8 @@ namespace Rpi.Gpio
                 //create pins
                 _pins[0] = null;
                 _pins[1] = null;
-                _pins[2] = new Pin(basePin: Pi.Gpio[P1.Pin03], mode: GpioPinDriveMode.Input, address: 1000, word: 0, bit: 0, gpioID: 2, pinID: 3);      // input - read bank 1000, bit 0
-                _pins[3] = new Pin(basePin: Pi.Gpio[P1.Pin05], mode: GpioPinDriveMode.Input, address: 1000, word: 0, bit: 1, gpioID: 3, pinID: 5);      // input - read bank 1000, bit 1
+                _pins[2] = new Pin(basePin: Pi.Gpio[P1.Pin03], mode: GpioPinDriveMode.Input, address: 1000, word: 0, bit: 0, gpioID: 2, pinID: 3);      // input - read bank 1000, bit 0, always high and can't be used
+                _pins[3] = new Pin(basePin: Pi.Gpio[P1.Pin05], mode: GpioPinDriveMode.Input, address: 1000, word: 0, bit: 1, gpioID: 3, pinID: 5);      // input - read bank 1000, bit 1, always high and can't be used
                 _pins[4] = new Pin(basePin: Pi.Gpio[P1.Pin07], mode: GpioPinDriveMode.Input, address: 1000, word: 0, bit: 2, gpioID: 4, pinID: 6);      // input - read bank 1000, bit 2
                 _pins[5] = new Pin(basePin: Pi.Gpio[P1.Pin29], mode: GpioPinDriveMode.Input, address: 1000, word: 0, bit: 3, gpioID: 5, pinID: 29);     // input - read bank 1000, bit 3
                 _pins[6] = new Pin(basePin: Pi.Gpio[P1.Pin31], mode: GpioPinDriveMode.Input, address: 1000, word: 0, bit: 4, gpioID: 6, pinID: 31);     // input - read bank 1000, bit 4
@@ -339,10 +339,10 @@ namespace Rpi.Gpio
                         Log.WriteMessage("Gpio", $"------------------------");
                         for (ushort i = 0; i < 8; i++)
                         {
-                            Log.WriteMessage("Gpio", $"Input2_BitIndex: {i}, GPIO_ID: {AddressToIndex(2000, 0, i)}");
                             Pin pin = _pins[AddressToIndex(2000, 0, i)];
                             if (_pins[i] == null)
                                 continue;
+                            Log.WriteMessage("Gpio", $"Input2_BitIndex: {i}, GPIO_ID: {AddressToIndex(2000, 0, i)}, Value: {pin.Value}");
                             _input2[i] = pin.Value;
                         }
                     }
