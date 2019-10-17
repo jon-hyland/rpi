@@ -311,6 +311,7 @@ namespace Rpi.Gpio
                         }
 
                         //read or write to each pin
+                        Log.WriteMessage("Gpio", $"========================");
                         for (int i = 0; i < 32; i++)
                         {
                             if (_pins[i] == null)
@@ -320,11 +321,14 @@ namespace Rpi.Gpio
                                 pin.Value = pin.BasePin.Read();
                             else if (pin.Mode == GpioPinDriveMode.Output)
                                 pin.BasePin.Write(pin.Value);
+                            Log.WriteMessage("Gpio", $"GPIO_ID: {i}, Mode: {pin.Mode.ToString()}, Value: {(pin.Value ? "1" : "0")}");
                         }
 
                         //copy pin values to 'input 1' buffer
+                        Log.WriteMessage("Gpio", $"------------------------");
                         for (ushort i = 0; i < 8; i++)
                         {
+                            Log.WriteMessage("Gpio", $"Input1_BitIndex: {i}, GPIO_ID: {AddressToIndex(1000, 0, i)}");                            
                             Pin pin = _pins[AddressToIndex(1000, 0, i)];
                             if (_pins[i] == null)
                                 continue;
@@ -332,8 +336,10 @@ namespace Rpi.Gpio
                         }
 
                         //copy pin values to 'input 2' buffer
+                        Log.WriteMessage("Gpio", $"------------------------");
                         for (ushort i = 0; i < 8; i++)
                         {
+                            Log.WriteMessage("Gpio", $"Input2_BitIndex: {i}, GPIO_ID: {AddressToIndex(2000, 0, i)}");
                             Pin pin = _pins[AddressToIndex(2000, 0, i)];
                             if (_pins[i] == null)
                                 continue;
@@ -349,7 +355,7 @@ namespace Rpi.Gpio
                 {
                     _errorHandler?.LogError(ex);
                 }
-                Thread.Sleep(15);
+                Thread.Sleep(1000);
             }
         }
 
