@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Rpi.Error;
+using Rpi.Gpio;
 using Rpi.Handlers;
 using Rpi.Health;
 using Rpi.Http;
@@ -23,12 +24,13 @@ namespace Rpi
     public class Main
     {
         //singletons
-        private Config _config;
+        private IConfig _config;
         private IErrorLogger _errorCache;
         private IErrorHandler _errorHandler;
         private ServiceState _serviceState;
         private ServiceStats _serviceStats;
         private Heartbeat _heartbeat;
+        private GpioManager _gpio;
 
         //private
         private static DateTime _startTime = DateTime.Now;
@@ -75,10 +77,12 @@ namespace Rpi
                 _serviceState = new ServiceState(_errorHandler, ServiceStateType.Down);
                 _serviceStats = new ServiceStats(_errorHandler);
                 _heartbeat = new Heartbeat(_errorHandler, _config, _serviceStats, _serviceState);
+                _gpio = new GpioManager(_errorHandler);
 
                 //stats writers
                 _statsWriters.Add(_serviceState);
                 _statsWriters.Add(_serviceStats);
+                _statsWriters.Add(_gpio);
                 _statsWriters.Add((IStatsWriter)_errorCache);
 
                 //start health thread
@@ -231,6 +235,11 @@ namespace Rpi
                 ConfigHandler configHandler = new ConfigHandler(_errorHandler, _config, _serviceStats);
                 _httpListener.RegisterHandler("config", configHandler);
 
+                //add gpio handler
+                Log.WriteMessage("Service", $"Registering 'GPIO' HTTP handler..");
+                GpioHandler gpioHandler = new GpioHandler(_errorHandler, _config, _serviceStats);
+                _httpListener.RegisterHandler("gpio", gpioHandler);
+
                 //pre-init
                 Log.WriteMessage("Service", $"Running pre-init handler functions..");
                 foreach (IHttpHandler handler in _httpListener.GetHandlers())
@@ -303,6 +312,7 @@ namespace Rpi
                     try
                     {
                         //do stuff
+                        _gpio.Maintenance();
                     }
                     catch (Exception ex)
                     {

@@ -5,18 +5,20 @@ using Rpi.Service;
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using Unosquare.RaspberryIO;
+using Unosquare.WiringPi;
 
 namespace Rpi.Handlers
 {
     /// <summary>
-    /// Handles requests for configuration.
+    /// Handles requests for RPI GPIO.
     /// </summary>
-    public class ConfigHandler : HandlerBase
+    public class GpioHandler : HandlerBase
     {
         /// <summary>
         /// Class constructor.
         /// </summary>
-        public ConfigHandler(IErrorHandler errorHandler, IConfig config, ServiceStats serviceStats)
+        public GpioHandler(IErrorHandler errorHandler, IConfig config, ServiceStats serviceStats)
             : base(errorHandler, config, serviceStats)
         {
         }
@@ -43,8 +45,8 @@ namespace Rpi.Handlers
             string json;
             switch (context.Command)
             {
-                case "setdevicename":
-                    json = SetDeviceName(context);
+                case "read":
+                    json = Read(context);
                     await context.WriteJson(json);
                     break;
 
@@ -56,28 +58,28 @@ namespace Rpi.Handlers
         }
 
         /// <summary>
-        /// Executes 'Set Device Name' command.
+        /// Executes 'Read' command.
         /// </summary>
-        private string SetDeviceName(SimpleHttpContext context)
+        private string Read(SimpleHttpContext context)
         {
             StringBuilder json = new StringBuilder();
             try
             {
-                string name = context.Query.Get("name");
-                if (String.IsNullOrWhiteSpace(name))
-                    throw new Exception("Parameter 'name' is missing or invalid");
+                //string name = context.Query.Get("name");
+                //if (String.IsNullOrWhiteSpace(name))
+                //    throw new Exception("Parameter 'name' is missing or invalid");
 
-                _config.DeviceName = name;
+                //_config.DeviceName = name;
                 using (var writer = new SimpleJsonWriter(json))
                 {
                     writer.WriteStartObject();
-                    WriteServiceObject(writer, true);
-                    WriteDeviceObject(writer);
-                    WriteRequestObject(writer, context);
-                    writer.WriteStartObject("output");
-                    writer.WritePropertyValue("success", 1);
-                    writer.WritePropertyValue("code", 0);
-                    writer.WriteEndObject();
+                    //WriteServiceObject(writer, true);
+                    //WriteDeviceObject(writer);
+                    //WriteRequestObject(writer, context);
+                    //writer.WriteStartObject("output");
+                    //writer.WritePropertyValue("success", 1);
+                    //writer.WritePropertyValue("code", 0);
+                    //writer.WriteEndObject();
                     writer.WriteEndObject();
                 }
             }
@@ -89,7 +91,7 @@ namespace Rpi.Handlers
             return json.ToString();
         }
 
-    
+
 
     }
 }

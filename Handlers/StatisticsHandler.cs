@@ -24,7 +24,7 @@ namespace Rpi.Handlers
         /// <summary>
         /// Class constructor.
         /// </summary>
-        public StatisticsHandler(IErrorHandler errorHandler, Config config, ServiceStats serviceStats, List<IStatsWriter> statsWriters)
+        public StatisticsHandler(IErrorHandler errorHandler, IConfig config, ServiceStats serviceStats, List<IStatsWriter> statsWriters)
             : base(errorHandler, config, serviceStats)
         {
             _statsWriters = statsWriters;

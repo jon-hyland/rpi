@@ -18,13 +18,13 @@ namespace Rpi.Handlers
     {
         //private
         protected readonly IErrorHandler _errorHandler;
-        protected readonly Config _config;
+        protected readonly IConfig _config;
         protected readonly ServiceStats _serviceStats;
 
         /// <summary>
         /// Class constructor.
         /// </summary>
-        public HandlerBase(IErrorHandler errorHandler, Config config, ServiceStats serviceStats)
+        public HandlerBase(IErrorHandler errorHandler, IConfig config, ServiceStats serviceStats)
         {
             _errorHandler = errorHandler;
             _config = config;

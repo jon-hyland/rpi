@@ -22,7 +22,7 @@ namespace Rpi.Health
     {
         //private
         private readonly IErrorHandler _errorHandler;
-        private readonly Config _config;
+        private readonly IConfig _config;
         private readonly ServiceStats _serviceStats;
         private readonly ServiceState _serviceState;
         private readonly SimpleTimer _timer;
@@ -33,7 +33,7 @@ namespace Rpi.Health
         /// <summary>
         /// Class constructor.
         /// </summary>
-        public Heartbeat(IErrorHandler errorHandler, Config config, ServiceStats serviceStats, ServiceState serviceState)
+        public Heartbeat(IErrorHandler errorHandler, IConfig config, ServiceStats serviceStats, ServiceState serviceState)
         {
             Log.WriteMessage("Heartbeat", $"Creating heatbeat service..");
             _errorHandler = errorHandler;

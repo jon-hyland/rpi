@@ -15,7 +15,7 @@ namespace Rpi
     /// <summary>
     /// Stores service configuration data.
     /// </summary>
-    public class Config
+    public class Config : IConfig
     {
         //private
         private readonly IConfigurationRoot _root;
@@ -31,7 +31,7 @@ namespace Rpi
         public string DeviceSerial => _deviceSerial;
         public string DeviceName { get => _storage.DeviceName; set { _storage.DeviceName = value; _storage.SaveSettings(); } }
         public string ServiceName => "Rpi";
-        public string ServiceVersion => "1.0.0";
+        public string ServiceVersion => "1.0.1";
         public string ApplicationPath => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         public int ListenPort => _root.GetValue("listenPort", 5001);
         public TimeSpan ErrorRetention => TimeSpan.FromMinutes(_root.GetValue("errorRetentionMins", 60));

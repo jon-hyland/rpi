@@ -119,7 +119,7 @@ namespace Rpi.Output
                 {
                     lock (_fileLock)
                     {
-                        string file = Path.Combine(_folder, $"powerhub.deviceservice.{DateTime.Now.ToString("yyyyMMdd")}.log");
+                        string file = Path.Combine(_folder, $"rpi.{DateTime.Now.ToString("yyyyMMdd")}.log");
                         StringBuilder sb = new StringBuilder();
                         foreach (string line in copy)
                             sb.AppendLine(line.Replace("##VERSION##", _version));
@@ -151,7 +151,7 @@ namespace Rpi.Output
             DateTime earliest = DateTime.Now.Subtract(TimeSpan.FromMinutes(minutes));
             lock (_fileLock)
             {
-                string[] files = Directory.GetFiles(_folder, "powerhub.deviceservice.*.log")
+                string[] files = Directory.GetFiles(_folder, "rpi.*.log")
                     .OrderByDescending(f => f)
                     .ToArray();
 
