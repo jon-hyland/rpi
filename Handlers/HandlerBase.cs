@@ -85,7 +85,7 @@ namespace Rpi.Handlers
                     writer.WriteStartObject("output");
                     writer.WritePropertyValue("success", 0);
                     writer.WritePropertyValue("code", 1);
-                    writer.WritePropertyValue("message", "Fatal error occurred");
+                    writer.WritePropertyValue("message", ex.Message ?? "A fatal error occurred");
                     writer.WriteEndObject();
                     WriteErrorsObject(writer, new List<Exception>() { ex });
                     writer.WriteEndObject();
