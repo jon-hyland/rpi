@@ -116,11 +116,7 @@ namespace Rpi.Handlers
             {
                 string output = context.Query.Get("output");
                 if (String.IsNullOrWhiteSpace(output))
-                    throw new Exception("Parameter 'output' is missing or invalid");
-                if (output.Length != 8)
-                    throw new Exception($"Bank value {output} not valid");
-                if (!Regex.IsMatch(output, @"^[0-1]*$"))
-                    throw new Exception($"Bank value {output} not valid");
+                    throw new Exception("Parameter 'output' missing or invalid");
                 _gpio.SetBank(BankType.Output, output);
 
                 using (SimpleJsonWriter writer = new SimpleJsonWriter(json))
@@ -131,7 +127,6 @@ namespace Rpi.Handlers
                     WriteRequestObject(writer, context);
                     writer.WriteStartObject("output");
                     writer.WritePropertyValue("success", 1);
-                    writer.WritePropertyValue("output", output);
                     writer.WriteEndObject();
                     writer.WriteEndObject();
                 }
@@ -159,10 +154,6 @@ namespace Rpi.Handlers
                 string outputWrite = context.Query.Get("output");
                 if (String.IsNullOrWhiteSpace(outputWrite))
                     throw new Exception("Parameter 'output' is missing or invalid");
-                if (outputWrite.Length != 8)
-                    throw new Exception($"Bank value {outputWrite} not valid");
-                if (!Regex.IsMatch(outputWrite, @"^[0-1]*$"))
-                    throw new Exception($"Bank value {outputWrite} not valid");
                 _gpio.SetBank(BankType.Output, outputWrite);
 
                 using (SimpleJsonWriter writer = new SimpleJsonWriter(json))

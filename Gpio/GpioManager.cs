@@ -164,9 +164,9 @@ namespace Rpi.Gpio
                 if (bank != BankType.Output)
                     throw new Exception($"Bank not valid");
                 if (value.Length != 8)
-                    throw new Exception($"Bank value {value} not valid");
+                    throw new Exception($"Bank value '{value}' incorrect length");
                 if (!Regex.IsMatch(value, @"^[0-1]*$"))
-                    throw new Exception($"Bank value {value} not valid");
+                    throw new Exception($"Bank value '{value}' not valid");
 
                 bool[] buffer = new bool[8];
                 for (int i = 0; i < 8; i++)
