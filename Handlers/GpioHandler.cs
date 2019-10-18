@@ -5,6 +5,7 @@ using Rpi.Json;
 using Rpi.Service;
 using System;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Rpi.Handlers
@@ -53,6 +54,16 @@ namespace Rpi.Handlers
                     await context.WriteJson(json);
                     break;
 
+                case "write":
+                    json = Write(context);
+                    await context.WriteJson(json);
+                    break;
+
+                case "readwrite":
+                    json = ReadWrite(context);
+                    await context.WriteJson(json);
+                    break;
+
                 default:
                     string message = "Command not found";
                     await context.WriteError(message, 404);
@@ -78,7 +89,7 @@ namespace Rpi.Handlers
                     WriteServiceObject(writer, true);
                     WriteDeviceObject(writer);
                     WriteRequestObject(writer, context);
-                    writer.WriteStartObject("read");
+                    writer.WriteStartObject("output");
                     writer.WritePropertyValue("success", 1);
                     writer.WritePropertyValue("input1", input1);
                     writer.WritePropertyValue("input2", input2);
@@ -103,21 +114,69 @@ namespace Rpi.Handlers
             StringBuilder json = new StringBuilder();
             try
             {
-                //string name = context.Query.Get("name");
-                //if (String.IsNullOrWhiteSpace(name))
-                //    throw new Exception("Parameter 'name' is missing or invalid");
+                string output = context.Query.Get("output");
+                if (String.IsNullOrWhiteSpace(output))
+                    throw new Exception("Parameter 'output' is missing or invalid");
+                if (output.Length != 8)
+                    throw new Exception($"Bank value {output} not valid");
+                if (!Regex.IsMatch(output, @"^[0-1]*$"))
+                    throw new Exception($"Bank value {output} not valid");
+                _gpio.SetBank(3000, output);
 
-                //_config.DeviceName = name;
                 using (SimpleJsonWriter writer = new SimpleJsonWriter(json))
                 {
                     writer.WriteStartObject();
-                    //WriteServiceObject(writer, true);
-                    //WriteDeviceObject(writer);
-                    //WriteRequestObject(writer, context);
-                    //writer.WriteStartObject("output");
-                    //writer.WritePropertyValue("success", 1);
-                    //writer.WritePropertyValue("code", 0);
-                    //writer.WriteEndObject();
+                    WriteServiceObject(writer, true);
+                    WriteDeviceObject(writer);
+                    WriteRequestObject(writer, context);
+                    writer.WriteStartObject("output");
+                    writer.WritePropertyValue("success", 1);
+                    writer.WritePropertyValue("output", output);
+                    writer.WriteEndObject();
+                    writer.WriteEndObject();
+                }
+            }
+            catch (Exception ex)
+            {
+                _errorHandler?.LogError(ex);
+                return WriteFatalResponse(context, ex);
+            }
+            return json.ToString();
+        }
+
+        /// <summary>
+        /// Executes 'Read Write' command.
+        /// </summary>
+        private string ReadWrite(SimpleHttpContext context)
+        {
+            StringBuilder json = new StringBuilder();
+            try
+            {
+                string input1 = _gpio.GetBank(1000);
+                string input2 = _gpio.GetBank(2000);
+                string outputOut = _gpio.GetBank(3000);
+
+                string outputIn = context.Query.Get("output");
+                if (String.IsNullOrWhiteSpace(outputIn))
+                    throw new Exception("Parameter 'output' is missing or invalid");
+                if (outputIn.Length != 8)
+                    throw new Exception($"Bank value {outputIn} not valid");
+                if (!Regex.IsMatch(outputIn, @"^[0-1]*$"))
+                    throw new Exception($"Bank value {outputIn} not valid");
+                _gpio.SetBank(3000, outputIn);
+
+                using (SimpleJsonWriter writer = new SimpleJsonWriter(json))
+                {
+                    writer.WriteStartObject();
+                    WriteServiceObject(writer, true);
+                    WriteDeviceObject(writer);
+                    WriteRequestObject(writer, context);
+                    writer.WriteStartObject("output");
+                    writer.WritePropertyValue("success", 1);
+                    writer.WritePropertyValue("input1", input1);
+                    writer.WritePropertyValue("input2", input2);
+                    writer.WritePropertyValue("output", outputOut);
+                    writer.WriteEndObject();
                     writer.WriteEndObject();
                 }
             }
