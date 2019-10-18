@@ -9,6 +9,7 @@ using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using Unosquare.RaspberryIO;
 
 namespace Rpi
 {
@@ -31,7 +32,7 @@ namespace Rpi
         public string DeviceSerial => _deviceSerial;
         public string DeviceName { get => _storage.DeviceName; set { _storage.DeviceName = value; _storage.SaveSettings(); } }
         public string ServiceName => "Rpi";
-        public string ServiceVersion => "1.0.20";
+        public string ServiceVersion => "1.0.21";
         public string ApplicationPath => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         public int ListenPort => _root.GetValue("listenPort", 5001);
         public TimeSpan ErrorRetention => TimeSpan.FromMinutes(_root.GetValue("errorRetentionMins", 60));
@@ -59,16 +60,7 @@ namespace Rpi
             string serial = "000000000000";
             try
             {
-                NetworkInterface ni = NetworkInterface.GetAllNetworkInterfaces()
-                    .Where(i => i.NetworkInterfaceType == NetworkInterfaceType.Ethernet || i.NetworkInterfaceType == NetworkInterfaceType.GigabitEthernet)
-                    .Where(i => InterfaceNames.Contains(i.Name.ToLower()))
-                    .FirstOrDefault();
-
-                if (ni != null)
-                    serial = String.Join("", ni.GetPhysicalAddress()
-                        .GetAddressBytes()
-                        .Select(b => b.ToString("X2")))
-                        .ToLower();
+                serial = Pi.Info.Serial;
             }
             catch
             {

@@ -15,6 +15,8 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using Unosquare.RaspberryIO;
+using Unosquare.WiringPi;
 
 namespace Rpi
 {
@@ -59,6 +61,9 @@ namespace Rpi
 
                 //events
                 Console.CancelKeyPress += Console_CancelKeyPress;
+
+                //init pi
+                Pi.Init<BootstrapWiringPi>();
 
                 //config
                 Log.WriteMessage("Service", "Loading configuration..");

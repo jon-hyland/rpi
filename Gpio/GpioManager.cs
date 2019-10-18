@@ -7,7 +7,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using Unosquare.RaspberryIO;
 using Unosquare.RaspberryIO.Abstractions;
-using Unosquare.WiringPi;
 
 namespace Rpi.Gpio
 {
@@ -45,9 +44,6 @@ namespace Rpi.Gpio
         {
             try
             {
-                //init pi
-                Pi.Init<BootstrapWiringPi>();
-
                 //create pins
                 _pins[0] = null;
                 _pins[1] = null;
