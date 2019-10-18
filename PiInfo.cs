@@ -15,7 +15,7 @@ namespace Rpi
         public void WriteRuntimeStatistics(SimpleJsonWriter writer)
         {
             writer.WriteStartObject("pi");
-            writer.WritePropertyValue("boardModel", Pi.Info.BoardModel);
+            writer.WritePropertyValue("boardModel", Pi.Info.BoardModel.ToString());
             writer.WritePropertyValue("boardRevision", Pi.Info.BoardRevision);
             writer.WritePropertyValue("cpuArchitecture", Pi.Info.CpuArchitecture);
             writer.WritePropertyValue("cpuImplementer", Pi.Info.CpuImplementer);
@@ -26,14 +26,14 @@ namespace Rpi
             writer.WritePropertyValue("hardware", Pi.Info.Hardware);
             writer.WritePropertyValue("installedRam", Pi.Info.InstalledRam);
             writer.WritePropertyValue("isLittleEndian", Pi.Info.IsLittleEndian ? 1 : 0);
-            writer.WritePropertyValue("libraryVersion", Pi.Info.LibraryVersion);
-            writer.WritePropertyValue("manufacturer", Pi.Info.Manufacturer);
-            writer.WritePropertyValue("memorySize", Pi.Info.MemorySize);
+            writer.WritePropertyValue("libraryVersion", Pi.Info.LibraryVersion.ToString());
+            writer.WritePropertyValue("manufacturer", Pi.Info.Manufacturer.ToString());
+            writer.WritePropertyValue("memorySize", Pi.Info.MemorySize.ToString());
             writer.WritePropertyValue("modelName", Pi.Info.ModelName);
-            writer.WritePropertyValue("operatingSystem", Pi.Info.OperatingSystem);
-            writer.WritePropertyValue("processorModel", Pi.Info.ProcessorModel);
-            writer.WritePropertyValue("processorModel", Pi.Info.ProcessorModel);
-            writer.WritePropertyValue("raspberryPiVersion", Pi.Info.RaspberryPiVersion);
+            writer.WritePropertyValue("operatingSystem", Pi.Info.OperatingSystem.ToString());
+            writer.WritePropertyValue("processorModel", Pi.Info.ProcessorModel.ToString());
+            writer.WritePropertyValue("processorModel", Pi.Info.ProcessorModel.ToString());
+            writer.WritePropertyValue("raspberryPiVersion", Pi.Info.RaspberryPiVersion.ToString());
             writer.WritePropertyValue("revision", Pi.Info.Revision);
             writer.WritePropertyValue("revisionNumber", Pi.Info.RevisionNumber);
             writer.WritePropertyValue("serial", Pi.Info.Serial);
