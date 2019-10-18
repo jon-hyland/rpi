@@ -32,6 +32,7 @@ namespace Rpi
         private ServiceState _serviceState;
         private ServiceStats _serviceStats;
         private Heartbeat _heartbeat;
+        private PiInfo _piInfo;
         private GpioManager _gpio;
 
         //private
@@ -82,12 +83,14 @@ namespace Rpi
                 _serviceState = new ServiceState(_errorHandler, ServiceStateType.Down);
                 _serviceStats = new ServiceStats(_errorHandler);
                 _heartbeat = new Heartbeat(_errorHandler, _config, _serviceStats, _serviceState);
+                _piInfo = new PiInfo();
                 _gpio = new GpioManager(_errorHandler);
 
                 //stats writers
                 _statsWriters.Add(_serviceState);
                 _statsWriters.Add(_serviceStats);
                 _statsWriters.Add(_gpio);
+                _statsWriters.Add(_piInfo);
                 _statsWriters.Add((IStatsWriter)_errorCache);
 
                 //start health thread
