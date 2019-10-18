@@ -51,6 +51,7 @@ namespace Rpi.Gpio
                 //create pins
                 _pins[0] = null;
                 _pins[1] = null;
+
                 _pins[2] = new Pin(basePin: Pi.Gpio[P1.Pin03], mode: GpioPinDriveMode.Input, address: 1000, word: 0, bit: 0, gpioID: 2, pinID: 3);      // input - read bank 1000, bit 0, always high and can't be used
                 _pins[3] = new Pin(basePin: Pi.Gpio[P1.Pin05], mode: GpioPinDriveMode.Input, address: 1000, word: 0, bit: 1, gpioID: 3, pinID: 5);      // input - read bank 1000, bit 1, always high and can't be used
                 _pins[4] = new Pin(basePin: Pi.Gpio[P1.Pin07], mode: GpioPinDriveMode.Input, address: 1000, word: 0, bit: 2, gpioID: 4, pinID: 6);      // input - read bank 1000, bit 2
@@ -59,24 +60,29 @@ namespace Rpi.Gpio
                 _pins[7] = new Pin(basePin: Pi.Gpio[P1.Pin26], mode: GpioPinDriveMode.Input, address: 1000, word: 0, bit: 5, gpioID: 7, pinID: 26);     // input - read bank 1000, bit 5
                 _pins[8] = new Pin(basePin: Pi.Gpio[P1.Pin24], mode: GpioPinDriveMode.Input, address: 1000, word: 0, bit: 6, gpioID: 8, pinID: 24);     // input - read bank 1000, bit 6
                 _pins[9] = new Pin(basePin: Pi.Gpio[P1.Pin21], mode: GpioPinDriveMode.Input, address: 1000, word: 0, bit: 7, gpioID: 9, pinID: 21);     // input - read bank 1000, bit 7
+                
                 _pins[10] = new Pin(basePin: Pi.Gpio[P1.Pin19], mode: GpioPinDriveMode.Output, address: 3000, word: 0, bit: 0, gpioID: 10, pinID: 19);  // output - write bank 3000, bit 0
                 _pins[11] = new Pin(basePin: Pi.Gpio[P1.Pin23], mode: GpioPinDriveMode.Output, address: 3000, word: 0, bit: 1, gpioID: 11, pinID: 23);  // output - write bank 3000, bit 1
                 _pins[12] = new Pin(basePin: Pi.Gpio[P1.Pin32], mode: GpioPinDriveMode.Output, address: 3000, word: 0, bit: 2, gpioID: 12, pinID: 32);  // output - write bank 3000, bit 2, pwm capable, mirrored to 18
                 _pins[13] = new Pin(basePin: Pi.Gpio[P1.Pin33], mode: GpioPinDriveMode.Output, address: 3000, word: 0, bit: 3, gpioID: 13, pinID: 33);  // output - write bank 3000, bit 3, pwm capable, mirrored to 19
+                
                 _pins[14] = null;
                 _pins[15] = null;
+                
                 _pins[16] = new Pin(basePin: Pi.Gpio[P1.Pin36], mode: GpioPinDriveMode.Output, address: 3000, word: 0, bit: 4, gpioID: 16, pinID: 36);  // output - write bank 3000, bit 4
                 _pins[17] = new Pin(basePin: Pi.Gpio[P1.Pin11], mode: GpioPinDriveMode.Output, address: 3000, word: 0, bit: 5, gpioID: 17, pinID: 11);  // output - write bank 3000, bit 5
                 _pins[18] = new Pin(basePin: Pi.Gpio[P1.Pin12], mode: GpioPinDriveMode.Output, address: 3000, word: 0, bit: 6, gpioID: 18, pinID: 12);  // output - write bank 3000, bit 6, pwm capable, mirrored to 12
                 _pins[19] = new Pin(basePin: Pi.Gpio[P1.Pin35], mode: GpioPinDriveMode.Output, address: 3000, word: 0, bit: 7, gpioID: 19, pinID: 35);  // output - write bank 3000, bit 7, pwm capable, mirrored to 13
-                _pins[20] = new Pin(basePin: Pi.Gpio[P1.Pin38], mode: GpioPinDriveMode.Input, address: 2000, word: 0, bit: 0, gpioID: 20, pinID: 38);  // input - read bank 2000, bit 0
-                _pins[21] = new Pin(basePin: Pi.Gpio[P1.Pin40], mode: GpioPinDriveMode.Input, address: 2000, word: 0, bit: 1, gpioID: 21, pinID: 40);  // input - read bank 2000, bit 1
-                _pins[22] = new Pin(basePin: Pi.Gpio[P1.Pin15], mode: GpioPinDriveMode.Input, address: 2000, word: 0, bit: 2, gpioID: 22, pinID: 15);  // input - read bank 2000, bit 2
-                _pins[23] = new Pin(basePin: Pi.Gpio[P1.Pin16], mode: GpioPinDriveMode.Input, address: 2000, word: 0, bit: 3, gpioID: 23, pinID: 16);  // input - read bank 2000, bit 3
-                _pins[24] = new Pin(basePin: Pi.Gpio[P1.Pin18], mode: GpioPinDriveMode.Input, address: 2000, word: 0, bit: 4, gpioID: 24, pinID: 18);  // input - read bank 2000, bit 4
-                _pins[25] = new Pin(basePin: Pi.Gpio[P1.Pin22], mode: GpioPinDriveMode.Input, address: 2000, word: 0, bit: 5, gpioID: 25, pinID: 22);  // input - read bank 2000, bit 5
-                _pins[26] = new Pin(basePin: Pi.Gpio[P1.Pin37], mode: GpioPinDriveMode.Input, address: 2000, word: 0, bit: 6, gpioID: 26, pinID: 37);  // input - read bank 2000, bit 6
-                _pins[27] = new Pin(basePin: Pi.Gpio[P1.Pin13], mode: GpioPinDriveMode.Input, address: 2000, word: 0, bit: 7, gpioID: 27, pinID: 13);  // input - read bank 2000, bit 7
+                
+                _pins[20] = new Pin(basePin: Pi.Gpio[P1.Pin38], mode: GpioPinDriveMode.Input, address: 2000, word: 0, bit: 0, gpioID: 20, pinID: 38);   // input - read bank 2000, bit 0
+                _pins[21] = new Pin(basePin: Pi.Gpio[P1.Pin40], mode: GpioPinDriveMode.Input, address: 2000, word: 0, bit: 1, gpioID: 21, pinID: 40);   // input - read bank 2000, bit 1
+                _pins[22] = new Pin(basePin: Pi.Gpio[P1.Pin15], mode: GpioPinDriveMode.Input, address: 2000, word: 0, bit: 2, gpioID: 22, pinID: 15);   // input - read bank 2000, bit 2
+                _pins[23] = new Pin(basePin: Pi.Gpio[P1.Pin16], mode: GpioPinDriveMode.Input, address: 2000, word: 0, bit: 3, gpioID: 23, pinID: 16);   // input - read bank 2000, bit 3
+                _pins[24] = new Pin(basePin: Pi.Gpio[P1.Pin18], mode: GpioPinDriveMode.Input, address: 2000, word: 0, bit: 4, gpioID: 24, pinID: 18);   // input - read bank 2000, bit 4
+                _pins[25] = new Pin(basePin: Pi.Gpio[P1.Pin22], mode: GpioPinDriveMode.Input, address: 2000, word: 0, bit: 5, gpioID: 25, pinID: 22);   // input - read bank 2000, bit 5
+                _pins[26] = new Pin(basePin: Pi.Gpio[P1.Pin37], mode: GpioPinDriveMode.Input, address: 2000, word: 0, bit: 6, gpioID: 26, pinID: 37);   // input - read bank 2000, bit 6
+                _pins[27] = new Pin(basePin: Pi.Gpio[P1.Pin13], mode: GpioPinDriveMode.Input, address: 2000, word: 0, bit: 7, gpioID: 27, pinID: 13);   // input - read bank 2000, bit 7
+                
                 _pins[28] = null;
                 _pins[29] = null;
                 _pins[30] = null;
@@ -305,7 +311,7 @@ namespace Rpi.Gpio
                         for (ushort i = 0; i < 8; i++)
                         {
                             Pin pin = _pins[AddressToIndex(3000, 0, i)];
-                            if (_pins[i] == null)
+                            if (pin == null)
                                 continue;
                             pin.Value = _output[i];
                         }
@@ -328,10 +334,10 @@ namespace Rpi.Gpio
                         Log.WriteMessage("Gpio", $"------------------------");
                         for (ushort i = 0; i < 8; i++)
                         {
-                            Log.WriteMessage("Gpio", $"Input1_BitIndex: {i}, GPIO_ID: {AddressToIndex(1000, 0, i)}");                            
                             Pin pin = _pins[AddressToIndex(1000, 0, i)];
-                            if (_pins[i] == null)
+                            if (pin == null)
                                 continue;
+                            Log.WriteMessage("Gpio", $"Input1_BitIndex: {i}, GPIO_ID: {AddressToIndex(1000, 0, i)}, Value: {(pin.Value ? "1" : "0")}");
                             _input1[i] = pin.Value;
                         }
 
@@ -340,9 +346,9 @@ namespace Rpi.Gpio
                         for (ushort i = 0; i < 8; i++)
                         {
                             Pin pin = _pins[AddressToIndex(2000, 0, i)];
-                            if (_pins[i] == null)
+                            if (pin == null)
                                 continue;
-                            Log.WriteMessage("Gpio", $"Input2_BitIndex: {i}, GPIO_ID: {AddressToIndex(2000, 0, i)}, Value: {pin.Value}");
+                            Log.WriteMessage("Gpio", $"Input2_BitIndex: {i}, GPIO_ID: {AddressToIndex(2000, 0, i)}, Value: {(pin.Value ? "1" : "0")}");
                             _input2[i] = pin.Value;
                         }
                     }
