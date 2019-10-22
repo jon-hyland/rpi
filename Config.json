@@ -5,6 +5,7 @@
     "eth0",
     "ens160",
     "primary",
-    "enp0s5"
+    "enp0s5",
+    "wlan0"
   ]
 }
