@@ -1,4 +1,5 @@
-﻿using Rpi.Error;
+﻿using Rpi.Configuration;
+using Rpi.Error;
 using Rpi.Json;
 using Rpi.Output;
 using Rpi.Service;
@@ -28,7 +29,8 @@ namespace Rpi.Health
         private readonly SimpleTimer _timer;
         private readonly UdpClient _udpClient;
         private readonly IPEndPoint _endPoint;
-        private readonly HashSet<string> _interfaceNames;
+        private readonly HashSet<string> _configuredInterfaceNames;
+        private readonly List<NetworkInterface> _discoveredInterfaces;
 
         /// <summary>
         /// Class constructor.
@@ -43,7 +45,8 @@ namespace Rpi.Health
             _timer = new SimpleTimer(Timer_Callback, 1000, false, true, true);
             _udpClient = new UdpClient();
             _endPoint = new IPEndPoint(IPAddress.Broadcast, 5002);
-            _interfaceNames = new HashSet<string>(_config.InterfaceNames);
+            _configuredInterfaceNames = new HashSet<string>(_config.InterfaceNames);
+            _discoveredInterfaces = new List<NetworkInterface>();
         }
 
         /// <summary>
@@ -95,13 +98,17 @@ namespace Rpi.Health
                 TimeSpan runningTime = Main.RunningTime;
                 string serviceState = _serviceState.GetState().ToString();
 
-                List<NetworkInterface> networkInterfaces = NetworkInterface.GetAllNetworkInterfaces()
-                   .Where(i => i.NetworkInterfaceType == NetworkInterfaceType.Ethernet || i.NetworkInterfaceType == NetworkInterfaceType.GigabitEthernet)
-                   .Where(i => _interfaceNames.Contains(i.Name.ToLower()))
-                   .ToList();
+                if (_discoveredInterfaces.Count == 0)
+                {
+                    IEnumerable<NetworkInterface> networkInterfaces = NetworkInterface.GetAllNetworkInterfaces()
+                       .Where(i => i.NetworkInterfaceType == NetworkInterfaceType.Ethernet || i.NetworkInterfaceType == NetworkInterfaceType.GigabitEthernet)
+                       .Where(i => _configuredInterfaceNames.Contains(i.Name.ToLower()));
+
+                    _discoveredInterfaces.AddRange(networkInterfaces);                       
+                }
 
                 List<Interface> interfaces = new List<Interface>();
-                foreach (NetworkInterface ni in networkInterfaces)
+                foreach (NetworkInterface ni in _discoveredInterfaces)
                 {
                     IPAddress ip = ni.GetIPProperties().UnicastAddresses
                         .Select(ua => ua.Address)

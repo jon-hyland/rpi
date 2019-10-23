@@ -1,4 +1,5 @@
-﻿using Rpi.Error;
+﻿using Rpi.Configuration;
+using Rpi.Error;
 using Rpi.Extensions;
 using Rpi.Http;
 using Rpi.Json;

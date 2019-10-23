@@ -7,5 +7,9 @@
     "primary",
     "enp0s5",
     "wlan0"
-  ]
+  ],
+  "gpio": {
+    "pollingIntervalMs": 15,
+    "stickyHighInputMs": 250
+  }
 }

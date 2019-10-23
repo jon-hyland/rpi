@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Rpi.Configuration;
 using Rpi.Error;
 using Rpi.Gpio;
 using Rpi.Handlers;
@@ -63,9 +64,6 @@ namespace Rpi
                 //events
                 Console.CancelKeyPress += Console_CancelKeyPress;
 
-                //init pi
-                Pi.Init<BootstrapWiringPi>();
-
                 //config
                 Log.WriteMessage("Service", "Loading configuration..");
                 IConfigurationRoot root = new ConfigurationBuilder()
@@ -74,6 +72,10 @@ namespace Rpi
                     .Build();
                 _config = new Config(root);
                 Log.WriteMessage("Service", $"Service version is {_config.ServiceVersion}");
+
+                //init pi (if linux)
+                if (_config.IsLinux)
+                    Pi.Init<BootstrapWiringPi>();
 
                 //singletons
                 Log.WriteMessage("Service", "Creating support structures..");
@@ -84,7 +86,7 @@ namespace Rpi
                 _serviceStats = new ServiceStats(_errorHandler);
                 _heartbeat = new Heartbeat(_errorHandler, _config, _serviceStats, _serviceState);
                 _piInfo = new PiInfo();
-                _gpio = new GpioManager(_errorHandler);
+                _gpio = new GpioManager(_errorHandler, _config);
 
                 //stats writers
                 _statsWriters.Add(_serviceState);

@@ -1,4 +1,5 @@
-﻿using Rpi.Error;
+﻿using Rpi.Configuration;
+using Rpi.Error;
 using Rpi.Helpers;
 using Rpi.Json;
 using Rpi.Output;
@@ -18,6 +19,7 @@ namespace Rpi.Gpio
     {
         //private
         private readonly IErrorHandler _errorHandler = null;
+        private readonly IConfig _config = null;
         private Thread _thread = null;
         private readonly ManualResetEventSlim _signal = new ManualResetEventSlim(false);
         private readonly ReaderWriterLockSlim _lock = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
@@ -31,10 +33,11 @@ namespace Rpi.Gpio
         /// <summary>
         /// Class constructor.
         /// </summary>
-        public GpioManager(IErrorHandler errorHandler)
+        public GpioManager(IErrorHandler errorHandler, IConfig config)
         {
             //vars
             _errorHandler = errorHandler;
+            _config = config;
         }
 
         #region Initialize
@@ -46,6 +49,10 @@ namespace Rpi.Gpio
         {
             try
             {
+                //return if not linux
+                if (!_config.IsLinux)
+                    return;
+
                 //create pins
                 _pins[0] = null;
                 _pins[1] = null;
@@ -311,7 +318,7 @@ namespace Rpi.Gpio
                             Pin pin = _pins[BankBitToIndex(BankType.Output, i)];
                             if (pin == null)
                                 continue;
-                            pin.Value = _outputWrite[i];
+                            pin.SetValue(_outputWrite[i]);
                         }
 
                         //read or write to each pin
@@ -321,9 +328,9 @@ namespace Rpi.Gpio
                                 continue;                            
                             Pin pin = _pins[i];
                             if (pin.Mode == GpioPinDriveMode.Input)
-                                pin.Value = pin.BasePin.Read();
+                                pin.SetValue(pin.BasePin.Read(), _config.StickyHighInputMs);
                             else if (pin.Mode == GpioPinDriveMode.Output)
-                                pin.BasePin.Write(pin.Value);
+                                pin.BasePin.Write(pin.GetValue());
                         }
 
                         //copy pin values to 'input 1' buffer
@@ -332,7 +339,7 @@ namespace Rpi.Gpio
                             Pin pin = _pins[BankBitToIndex(BankType.Input1, i)];
                             if (pin == null)
                                 continue;
-                            _input1[i] = pin.Value;
+                            _input1[i] = pin.GetValue();
                         }
 
                         //copy pin values to 'input 2' buffer
@@ -341,7 +348,7 @@ namespace Rpi.Gpio
                             Pin pin = _pins[BankBitToIndex(BankType.Input2, i)];
                             if (pin == null)
                                 continue;
-                            _input2[i] = pin.Value;
+                            _input2[i] = pin.GetValue();
                         }
 
                         //copy pin values to 'output read' buffer
@@ -350,7 +357,7 @@ namespace Rpi.Gpio
                             Pin pin = _pins[BankBitToIndex(BankType.Output, i)];
                             if (pin == null)
                                 continue;
-                            _outputRead[i] = pin.Value;
+                            _outputRead[i] = pin.GetValue();
                         }
                     }
                     finally
@@ -362,7 +369,7 @@ namespace Rpi.Gpio
                 {
                     _errorHandler?.LogError(ex);
                 }
-                Thread.Sleep(15);
+                Thread.Sleep(_config.PollingIntervalMs);
             }
         }
 
@@ -436,22 +443,54 @@ namespace Rpi.Gpio
         /// </summary>
         private class Pin
         {
-            public IGpioPin BasePin { get; }
-            public GpioPinDriveMode Mode { get; }
-            public BankType Bank { get; }
-            public ushort Bit { get; }
-            public ushort GpioID { get; }
-            public ushort PinID { get; }
-            public bool Value { get; set; }
+            private readonly IGpioPin _basePin;
+            private readonly GpioPinDriveMode _mode;
+            private readonly BankType _bank;
+            private readonly ushort _bit;
+            private readonly ushort _gpioID;
+            private readonly ushort _pinID;
+            private bool _value;
+            private DateTime _highUntilTime;
+
+            public IGpioPin BasePin => _basePin;
+            public GpioPinDriveMode Mode => _mode;
+            public BankType Bank => _bank;
+            public ushort Bit => _bit;
+            public ushort GpioID => _gpioID;
+            public ushort PinID => _pinID;
 
             public Pin(IGpioPin basePin, GpioPinDriveMode mode, BankType bank, ushort bit, ushort gpioID, ushort pinID)
             {
-                BasePin = basePin;
-                Mode = mode;
-                Bank = bank;
-                Bit = bit;
-                GpioID = gpioID;
-                PinID = pinID;
+                _basePin = basePin;
+                _mode = mode;
+                _bank = bank;
+                _bit = bit;
+                _gpioID = gpioID;
+                _pinID = pinID;
+                _value = false;
+                _highUntilTime = DateTime.MinValue;
+            }
+
+            public void SetValue(bool value, int stickyMs = 0)
+            {
+                if (_mode == GpioPinDriveMode.Input)
+                {
+                    if ((value == true) && (_value == false))
+                        _highUntilTime = DateTime.Now.AddMilliseconds(stickyMs);
+                    else if (value == false)
+                        _highUntilTime = DateTime.MinValue;
+                }
+                _value = value;
+            }
+
+            public bool GetValue()
+            {
+                if (_mode == GpioPinDriveMode.Input)
+                {
+                    if (DateTime.Now < _highUntilTime)
+                        return true;
+                }
+                return _value;
             }
         }
 
