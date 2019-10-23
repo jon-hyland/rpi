@@ -1,4 +1,5 @@
 ﻿using Rpi.Error;
+using Rpi.Helpers;
 using Rpi.Json;
 using Rpi.Output;
 using System;
@@ -25,6 +26,7 @@ namespace Rpi.Gpio
         private readonly bool[] _input2 = new bool[8];
         private readonly bool[] _outputRead = new bool[8];
         private readonly bool[] _outputWrite = new bool[8];
+        private CpsCalculator _cps = null;
 
         /// <summary>
         /// Class constructor.
@@ -102,6 +104,9 @@ namespace Rpi.Gpio
                         }
                     }
                 }
+
+                //cps
+                _cps = new CpsCalculator(5);
 
                 //start thread
                 _thread = new Thread(new ThreadStart(Polling_Thread))
@@ -297,6 +302,9 @@ namespace Rpi.Gpio
                     _lock.EnterWriteLock();
                     try
                     {
+                        //cps
+                        _cps.Increment();
+
                         //write data from 'output write' buffer into pin holder
                         for (ushort i = 0; i < 8; i++)
                         {
@@ -354,7 +362,7 @@ namespace Rpi.Gpio
                 {
                     _errorHandler?.LogError(ex);
                 }
-                Thread.Sleep(1000);
+                Thread.Sleep(15);
             }
         }
 
@@ -415,6 +423,7 @@ namespace Rpi.Gpio
             writer.WritePropertyValue("input1", input1);
             writer.WritePropertyValue("input2", input2);
             writer.WritePropertyValue("output", output);
+            writer.WritePropertyValue("cps", _cps.CPS.ToString("0.0"));
             writer.WriteEndObject();
         }
 
