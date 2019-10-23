@@ -1,4 +1,5 @@
-﻿using Rpi.Json;
+﻿using Rpi.Configuration;
+using Rpi.Json;
 using Rpi.Output;
 using System;
 using Unosquare.RaspberryIO;
@@ -7,11 +8,25 @@ namespace Rpi
 {
     public class PiInfo : IStatsWriter
     {
+        //private
+        private readonly IConfig _config;
+
+        /// <summary>
+        /// Class constructor.
+        /// </summary>
+        public PiInfo(IConfig config)
+        {
+            _config = config;
+        }
+
         /// <summary>
         /// Writes runtime stats.
         /// </summary>
         public void WriteRuntimeStatistics(SimpleJsonWriter writer)
         {
+            if (!_config.IsLinux)
+                return;
+
             writer.WriteStartObject("pi");
             writer.WritePropertyValue("boardModel", Pi.Info.BoardModel.ToString());
             writer.WritePropertyValue("boardRevision", Pi.Info.BoardRevision);

@@ -85,7 +85,7 @@ namespace Rpi
                 _serviceState = new ServiceState(_errorHandler, ServiceStateType.Down);
                 _serviceStats = new ServiceStats(_errorHandler);
                 _heartbeat = new Heartbeat(_errorHandler, _config, _serviceStats, _serviceState);
-                _piInfo = new PiInfo();
+                _piInfo = new PiInfo(_config);
                 _gpio = new GpioManager(_errorHandler, _config);
 
                 //stats writers

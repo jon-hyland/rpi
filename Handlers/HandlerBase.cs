@@ -127,6 +127,7 @@ namespace Rpi.Handlers
             writer.WritePropertyValue("interfaceName", _config.PrimaryInterface?.Name ?? "");
             writer.WritePropertyValue("macAddress", _config.PrimaryInterface?.PhysicalAddress ?? "");
             writer.WritePropertyValue("ipAddress", _config.PrimaryInterface?.InternetAddress ?? "");
+            writer.WritePropertyValue("os", _config.GetOS());
             writer.WriteEndObject();
         }
 

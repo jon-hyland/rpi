@@ -430,7 +430,7 @@ namespace Rpi.Gpio
             writer.WritePropertyValue("input1", input1);
             writer.WritePropertyValue("input2", input2);
             writer.WritePropertyValue("output", output);
-            writer.WritePropertyValue("cps", _cps.CPS.ToString("0.0"));
+            writer.WritePropertyValue("cps", _cps != null ? _cps.CPS.ToString("0.0") : "0.0");
             writer.WriteEndObject();
         }
 

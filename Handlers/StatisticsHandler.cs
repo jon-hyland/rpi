@@ -135,9 +135,10 @@ namespace Rpi.Handlers
                     WriteServiceObject(writer, true);
                     WriteDeviceObject(writer);
                     WriteRequestObject(writer, context);
-                    _statsWriters
-                        .ToList()
-                        .ForEach(w => w.WriteRuntimeStatistics(writer));
+                    foreach (IStatsWriter stats in _statsWriters)
+                    {
+                        stats.WriteRuntimeStatistics(writer);
+                    }
                     writer.WriteEndObject();
                 }
             }
