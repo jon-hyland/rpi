@@ -39,11 +39,11 @@ namespace Rpi
             writer.WritePropertyValue("hardware", Pi.Info.Hardware);
             writer.WritePropertyValue("installedRam", Pi.Info.InstalledRam);
             writer.WritePropertyValue("isLittleEndian", Pi.Info.IsLittleEndian ? 1 : 0);
-            writer.WritePropertyValue("libraryVersion", Pi.Info.LibraryVersion.ToString());
+            writer.WritePropertyValue("libraryVersion", Pi.Info.LibraryVersion?.ToString());
             writer.WritePropertyValue("manufacturer", Pi.Info.Manufacturer.ToString());
             writer.WritePropertyValue("memorySize", Pi.Info.MemorySize.ToString());
             writer.WritePropertyValue("modelName", Pi.Info.ModelName);
-            writer.WritePropertyValue("operatingSystem", Pi.Info.OperatingSystem.ToString());
+            writer.WritePropertyValue("operatingSystem", Pi.Info.OperatingSystem?.ToString());
             writer.WritePropertyValue("processorModel", Pi.Info.ProcessorModel.ToString());
             writer.WritePropertyValue("processorModel", Pi.Info.ProcessorModel.ToString());
             writer.WritePropertyValue("raspberryPiVersion", Pi.Info.RaspberryPiVersion.ToString());
