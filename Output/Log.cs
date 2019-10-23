@@ -246,9 +246,5 @@ namespace Rpi.Output
                 return DateTime.MinValue;
             }
         }
-
-      
-
-
     }
 }

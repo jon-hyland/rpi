@@ -1,8 +1,6 @@
 ﻿using Rpi.Json;
 using Rpi.Output;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Unosquare.RaspberryIO;
 
 namespace Rpi

@@ -22,3 +22,4 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>", Scope = "member", Target = "~M:Rpi.Handlers.VideoHandler.__PauseStream(System.String,Rpi.Handlers.VideoResult@)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Code Quality", "IDE0052:Remove unread private members", Justification = "<Pending>", Scope = "member", Target = "~F:Rpi.Health.VideoDeviceManager._timer")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Code Quality", "IDE0052:Remove unread private members", Justification = "<Pending>", Scope = "member", Target = "~F:Rpi.Helpers.CpsCalculator._timer")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "<Pending>", Scope = "member", Target = "~M:Rpi.Program.Main(System.String[])")]

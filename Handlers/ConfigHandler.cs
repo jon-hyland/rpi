@@ -68,7 +68,7 @@ namespace Rpi.Handlers
                     throw new Exception("Parameter 'name' is missing or invalid");
 
                 _config.DeviceName = name;
-                using (var writer = new SimpleJsonWriter(json))
+                using (SimpleJsonWriter writer = new SimpleJsonWriter(json))
                 {
                     writer.WriteStartObject();
                     WriteServiceObject(writer, true);

@@ -1,9 +1,9 @@
 ﻿using Rpi.Json;
 using Rpi.Output;
+using Rpi.Threading;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 
 namespace Rpi.Error
 {
@@ -19,7 +19,7 @@ namespace Rpi.Error
         private readonly Queue<SmallError> _errorCache = new Queue<SmallError>();
         private readonly Dictionary<int, Error> _errorDefs = new Dictionary<int, Error>();
         private readonly object _lock = new object();
-        private readonly Timer _timer = null;
+        private readonly SimpleTimer _timer = null;
         private DateTime _startTime = DateTime.Now;
 
         //public
@@ -33,7 +33,7 @@ namespace Rpi.Error
             Log.WriteMessage("ErrorCache", "Creating error cache..");
             _errorHandler = errorHandler;
             _retention = retention;
-            _timer = new Timer(Timer_Callback, null, TimeSpan.FromSeconds(60), TimeSpan.FromSeconds(60));
+            _timer = new SimpleTimer(Timer_Callback, TimeSpan.FromSeconds(60), true, true, true);
         }
 
         /// <summary>
@@ -52,8 +52,8 @@ namespace Rpi.Error
             try
             {
                 //create error objects
-                var error = new Error(ex);
-                var smallError = new SmallError(error.Hash);
+                Error error = new Error(ex);
+                SmallError smallError = new SmallError(error.Hash);
 
                 //lock
                 lock (_lock)
@@ -90,7 +90,7 @@ namespace Rpi.Error
         /// </summary>
         public List<ErrorCacheItem> GetErrorReport()
         {
-            var report = new List<ErrorCacheItem>();
+            List<ErrorCacheItem> report = new List<ErrorCacheItem>();
 
             try
             {
@@ -203,11 +203,11 @@ namespace Rpi.Error
         /// <summary>
         /// Timer callback, used to purge unreferenced error definitions from memory.
         /// </summary>
-        private void Timer_Callback(object state)
+        private void Timer_Callback()
         {
             try
             {
-                var usedHashes = new List<int>();
+                List<int> usedHashes = new List<int>();
                 lock (_lock)
                 {
                     foreach (SmallError smallError in _errorCache)
@@ -217,7 +217,7 @@ namespace Rpi.Error
                     }
                 }
 
-                var unusedHashes = new List<int>();
+                List<int> unusedHashes = new List<int>();
                 lock (_lock)
                 {
                     foreach (int hash in _errorDefs.Keys)
@@ -259,9 +259,6 @@ namespace Rpi.Error
                 Hash = hash;
             }
         }
-
-
-
     }
 
     /// <summary>
