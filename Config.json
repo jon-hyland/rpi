@@ -4,7 +4,7 @@
   "interfaceNames": [
     "eth0",
     "ens160",
-    "primary",
+    "primary interface",
     "enp0s5",
     "wlan0"
   ],

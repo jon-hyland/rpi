@@ -3,7 +3,6 @@ using Rpi.Configuration;
 using Rpi.Error;
 using Rpi.Gpio;
 using Rpi.Handlers;
-using Rpi.Health;
 using Rpi.Http;
 using Rpi.Output;
 using Rpi.Service;
@@ -32,7 +31,7 @@ namespace Rpi
         private IErrorHandler _errorHandler;
         private ServiceState _serviceState;
         private ServiceStats _serviceStats;
-        private Heartbeat _heartbeat;
+        //private Heartbeat _heartbeat;
         private PiInfo _piInfo;
         private GpioManager _gpio;
 
@@ -84,7 +83,7 @@ namespace Rpi
                 _errorHandler = new ErrorHandler(_errorCache);
                 _serviceState = new ServiceState(_errorHandler, ServiceStateType.Down);
                 _serviceStats = new ServiceStats(_errorHandler);
-                _heartbeat = new Heartbeat(_errorHandler, _config, _serviceStats, _serviceState);
+                //_heartbeat = new Heartbeat(_errorHandler, _config, _serviceStats, _serviceState);
                 _piInfo = new PiInfo(_config);
                 _gpio = new GpioManager(_errorHandler, _config);
 
@@ -112,8 +111,8 @@ namespace Rpi
                     //wait for ip assignment
                     WaitForIPAssignment();
 
-                    //start heatbeat timer
-                    _heartbeat.Start();
+                    ////start heatbeat timer
+                    //_heartbeat.Start();
 
                     //start http listener
                     StartHttpListener();
