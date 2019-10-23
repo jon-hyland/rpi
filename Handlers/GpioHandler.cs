@@ -60,7 +60,8 @@ namespace Rpi.Handlers
                     break;
 
                 case "readwrite":
-                    json = ReadWrite(context);
+                    //json = ReadWrite(context);
+                    json = @"{ ""output"": { ""success"": 1, ""input1"": ""00000000"", ""input2"": ""00000000"", ""output"": ""00000000"" } }";
                     await context.WriteJson(json);
                     break;
 
