@@ -1,0 +1,29 @@
+﻿{
+	"entries": [
+		{
+			"host": "gateway",
+			"ip": "10.0.1.1",
+			"mac": null
+		},
+		{
+			"host": "fileserver",
+			"ip": "10.0.1.2",
+			"mac": null
+		},
+		{
+			"host": "dns",
+			"ip": "10.0.1.3",
+			"mac": null
+		},
+		{
+			"host": "dns-wifi",
+			"ip": "10.0.1.4",
+			"mac": null
+		},
+		{
+			"host": "samurai",
+			"ip": "10.0.1.5",
+			"mac": "00:13:EF:F4:2B:1A"
+		}
+	]
+}

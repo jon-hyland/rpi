@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Rpi.Dns</RootNamespace>
+    <Version>1.0.8</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="entries.json" />
+    <None Remove="Resources\dnsmasq.conf" />
+    <None Remove="Resources\hosts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="entries.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\dnsmasq.conf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\hosts">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Rpi.Common\Rpi.Common.csproj" />
+  </ItemGroup>
+
+</Project>
