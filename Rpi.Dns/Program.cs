@@ -148,9 +148,9 @@ namespace Rpi.Dns
         private static void WriteError(Exception ex, int level = 0)
         {
             if (level == 0)
-                Console.WriteLine($"ERROR: {ex.Message}");
+                Console.WriteLine($"ERROR: {ex}");
             else
-                Console.WriteLine($"INNER: {ex.Message}");
+                Console.WriteLine($"INNER: {ex}");
 
             if (ex.InnerException != null)
                 WriteError(ex.InnerException, level + 1);
