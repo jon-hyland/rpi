@@ -183,7 +183,7 @@ namespace Rpi.Dns
                 if (input != "Y")
                     return;
             }
-            if (_entries.Where(e => e.Mac.Equals(entry.Mac)).Any())
+            if ((entry.Mac != null) && (_entries.Where(e => (e.Mac != null) && (e.Mac.Equals(entry.Mac))).Any()))
             {
                 Console.Write("Mac is duplicate.  Are you sure? [Y/N] : ");
                 string input = Console.ReadLine().Trim().ToUpper();
