@@ -1,0 +1,17 @@
+==============================
+ RASPBERRY PI DNS/DHCP SERVER
+==============================
+* Runs 32-bit Raspbian 10 (Buster) Lite
+* Static IP '10.0.1.2' for wired 'eth0' (defined in /etc/dhcpcd.conf)
+* Assumes internet gateway at '10.0.1.1' (defined in /etc/dnsmasq.conf)
+* Uses 'Dnsmasq' package for DNS/DHCP services
+* Dnsmasq uses '/etc/dnsmasq.conf' to configure system and DHCP reservations
+* Local network DNS entries are defined in '/etc/hosts' file
+* Dotnet Core 3.1 installed at '/usr/share/dotnet'
+* Dotnet binary '/usr/share/dotnet/dotnet' aliased to '/usr/bin/dotnet'
+* Console program Rpi.Dns installed at '/usr/share/rpidns'
+* Rpi.Dns maintains list of DNS/DHCP entries with easy to use interface,
+  managing the 'dnsmasq.conf' and 'hosts' files
+* Launch Rpi.Dns with '~/configure_system.sh' script            <-----
+* Restart services with '~/restart_dnsmasq.conf' script
+* Config file backups stored in '~/backup/' folder
