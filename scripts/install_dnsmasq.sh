@@ -39,3 +39,17 @@ sudo -u $USER cp $HOME/git/rpi/scripts/* $HOME/scripts/
 # grant execution on scripts
 echo "Granting execution on scripts.."
 sudo -u $USER chmod +x $HOME/scripts/*.sh
+
+# ask to overwrite config files
+read -p "Overwrite dnsmasq/dhcp config files?  This will remove any current settings!  [Y/N]: " -n 1 -r
+echo    # (optional) move to a new line
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    rm -f /etc/dnsmasq.conf
+	cp $HOME/scripts/dnsmasq.conf /etc/dnsmasq.conf
+    rm -f /etc/dhcpcd.conf
+	cp $HOME/scripts/dhcpcd.conf /etc/dhcpcd.conf
+fi
+
+
+
