@@ -51,7 +51,7 @@ sudo -u $USER chmod +x $HOME/scripts/*.sh
 echo "************************************************************"
 echo " Overwrite dnsmasq/dhcp/host config files?  This will remove"
 echo " any current settings and assumes a hostname of 'DNS'!!"
-echo "***********************************"
+echo "************************************************************"
 read -p "Overwrite configuration files? [Y/N]: " -n 1 -r
 echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]
