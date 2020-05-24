@@ -34,11 +34,13 @@ echo "Granting execution on scripts.."
 sudo -u $USER chmod +x $HOME/scripts/*.sh
 
 # copy control scripts
-echo "Copying control scripts.."
+echo "Copying home resources.."
 rm -f $HOME/configure_rpidns.sh
 sudo -u $USER cp $HOME/scripts/configure_rpidns.sh $HOME/configure_rpidns.sh
 rm -f $HOME/restart_dnsmasq.sh
 sudo -u $USER cp $HOME/scripts/restart_dnsmasq.sh $HOME/restart_dnsmasq.sh
+rm -f $HOME/DNS_README
+sudo -u $USER cp $HOME/scripts/DNS_README $HOME/DNS_README
 
 # publish utility
 echo "Building and publishing 'Rpi.Dns' utility.."
