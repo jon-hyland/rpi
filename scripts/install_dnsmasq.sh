@@ -48,10 +48,10 @@ then
     echo "Replacing '/etc/dnsmasq.conf'.."
 	rm -f /etc/dnsmasq.conf
 	cp $HOME/scripts/dnsmasq.conf /etc/dnsmasq.conf
-    echo "Replacing '/etc/dnsmasq.conf'.."
+    echo "Replacing '/etc/dhcpcd.conf'.."
     rm -f /etc/dhcpcd.conf
 	cp $HOME/scripts/dhcpcd.conf /etc/dhcpcd.conf
-    echo "Replacing '/etc/dnsmasq.conf'.."
+    echo "Replacing '/etc/hosts'.."
     rm -f /etc/hosts
 	cp $HOME/scripts/hosts /etc/hosts
 	echo "Run Rpi.Dns to reconfigure these files!"
