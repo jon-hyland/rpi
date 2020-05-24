@@ -21,3 +21,21 @@ then
     apt-get install dnsmasq
 fi
 
+# clone (or pull) 'rpi' repo
+if [ ! -d "$HOME/git/rpi" ]
+then
+    echo "Cloning 'rpi' repository.."
+    sudo -u $USER git clone "https://github.com/jon-hyland/rpi.git" "$HOME/git/rpi/"
+else
+    echo "Pulling 'rpi' repository.."
+    sudo -u $USER git -C "$HOME/git/rpi" pull
+fi
+
+# copy scripts
+echo "Copying scripts.."
+sudo -u $USER mkdir -p $HOME/scripts/
+sudo -u $USER cp $HOME/git/rpi/scripts/* $HOME/scripts/
+
+# grant execution on scripts
+echo "Granting execution on scripts.."
+sudo -u $USER chmod +x $HOME/scripts/*.sh
