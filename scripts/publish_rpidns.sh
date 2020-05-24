@@ -32,3 +32,8 @@ sudo -u $USER cp $HOME/git/rpi/scripts/*.sh $HOME/scripts/
 # grant execution on scripts
 echo "Granting execution on scripts.."
 sudo -u $USER chmod +x $HOME/scripts/*.sh
+
+# publish utility
+echo "Building and publishing 'Rpi.Dns' utility.."
+dotnet publish --output /usr/share/rpidns/ $HOME/git/rpi/Rpi.Dns/Rpi.Dns.csproj
+
