@@ -33,7 +33,29 @@ sudo -u $USER cp $HOME/git/rpi/scripts/*.sh $HOME/scripts/
 echo "Granting execution on scripts.."
 sudo -u $USER chmod +x $HOME/scripts/*.sh
 
+# copy control scripts
+echo "Copying control scripts.."
+rm -f $HOME/configure_rpidns.sh
+sudo -u $USER cp $HOME/scripts/configure_rpidns.sh $HOME/configure_rpidns.sh
+rm -f $HOME/restart_dnsmasq.sh
+sudo -u $USER cp $HOME/scripts/restart_dnsmasq.sh $HOME/restart_dnsmasq.sh
+
 # publish utility
 echo "Building and publishing 'Rpi.Dns' utility.."
 dotnet publish --output /usr/share/rpidns/ $HOME/git/rpi/Rpi.Dns/Rpi.Dns.csproj
+
+# create symbolic links
+echo "Creating symbolic links.."
+rm -f $HOME/dhcpcd.conf
+sudo -u $USER ln -sf /etc/dhcpcd.conf $HOME/dhcpcd.conf
+rm -f $HOME/dnsmasq.conf
+sudo -u $USER ln -sf /etc/dnsmasq.conf $HOME/dnsmasq.conf
+rm -f $HOME/hosts
+sudo -u $USER ln -sf /etc/hosts $HOME/hosts
+rm -f $HOME/dnsmasq.leases
+sudo -u $USER ln -sf /var/lib/misc/dnsmasq.leases $HOME/dnsmasq.leases
+
+
+
+
 
