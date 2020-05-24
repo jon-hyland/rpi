@@ -45,10 +45,16 @@ read -p "Overwrite dnsmasq/dhcp config files?  This will remove any current sett
 echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-    rm -f /etc/dnsmasq.conf
+    echo "Replacing '/etc/dnsmasq.conf'.."
+	rm -f /etc/dnsmasq.conf
 	cp $HOME/scripts/dnsmasq.conf /etc/dnsmasq.conf
+    echo "Replacing '/etc/dnsmasq.conf'.."
     rm -f /etc/dhcpcd.conf
 	cp $HOME/scripts/dhcpcd.conf /etc/dhcpcd.conf
+    echo "Replacing '/etc/dnsmasq.conf'.."
+    rm -f /etc/hosts
+	cp $HOME/scripts/hosts /etc/hosts
+	echo "Run Rpi.Dns to reconfigure these files!"
 fi
 
 
