@@ -148,9 +148,9 @@ namespace Rpi.Dns
         private static void WriteError(Exception ex, int level = 0)
         {
             if (level == 0)
-                Console.WriteLine($"ERROR: {ex.Message}");
+                Console.WriteLine($"ERROR: {ex}");
             else
-                Console.WriteLine($"INNER: {ex.Message}");
+                Console.WriteLine($"INNER: {ex}");
 
             if (ex.InnerException != null)
                 WriteError(ex.InnerException, level + 1);
@@ -183,7 +183,7 @@ namespace Rpi.Dns
                 if (input != "Y")
                     return;
             }
-            if (_entries.Where(e => e.Mac.Equals(entry.Mac)).Any())
+            if ((entry.Mac != null) && (_entries.Where(e => (e.Mac != null) && (e.Mac.Equals(entry.Mac))).Any()))
             {
                 Console.Write("Mac is duplicate.  Are you sure? [Y/N] : ");
                 string input = Console.ReadLine().Trim().ToUpper();
