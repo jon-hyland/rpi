@@ -48,7 +48,11 @@ echo "Granting execution on scripts.."
 sudo -u $USER chmod +x $HOME/scripts/*.sh
 
 # ask to overwrite config files
-read -p "Overwrite dnsmasq/dhcp config files?  This will remove any current settings!  [Y/N]: " -n 1 -r
+echo "************************************************************"
+echo " Overwrite dnsmasq/dhcp/host config files?  This will remove"
+echo " any current settings and assumes a hostname of 'DNS'!!"
+echo "***********************************"
+read -p "Overwrite configuration files? [Y/N]: " -n 1 -r
 echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
