@@ -21,6 +21,13 @@ then
     apt-get install dnsmasq
 fi
 
+# install dnsutils
+if [ $(dpkg-query -W -f='${Status}' dnsutils 2>/dev/null | grep -c "ok installed") -eq 0 ]
+then
+    echo "Installing dnsutils.."
+    apt-get install dnsutils
+fi
+
 # clone (or pull) 'rpi' repo
 if [ ! -d "$HOME/git/rpi" ]
 then
@@ -56,6 +63,10 @@ then
 	cp $HOME/scripts/hosts /etc/hosts
 	echo "Run Rpi.Dns to reconfigure these files!"
 fi
+
+# start dnsmasq service
+echo "Starting dnsmasq service.."
+sudo systemctl restart dnsmasq
 
 
 
