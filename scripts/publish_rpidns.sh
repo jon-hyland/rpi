@@ -12,3 +12,4 @@ set -e
 
 # vars
 HOME="/home/pi"
+USER="pi"
