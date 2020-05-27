@@ -27,7 +27,7 @@ fi
 # copy scripts
 echo "Copying scripts.."
 sudo -u $USER mkdir -p $HOME/scripts/
-sudo -u $USER cp $HOME/git/rpi/scripts/*.sh $HOME/scripts/
+sudo -u $USER cp $HOME/git/rpi/scripts/* $HOME/scripts/
 
 # grant execution on scripts
 echo "Granting execution on scripts.."
@@ -39,6 +39,8 @@ rm -f $HOME/configure_rpidns.sh
 sudo -u $USER cp $HOME/scripts/configure_rpidns.sh $HOME/configure_rpidns.sh
 rm -f $HOME/restart_dnsmasq.sh
 sudo -u $USER cp $HOME/scripts/restart_dnsmasq.sh $HOME/restart_dnsmasq.sh
+rm -f $HOME/print_dhcp_leases.sh
+sudo -u $USER cp $HOME/scripts/print_dhcp_leases.sh $HOME/print_dhcp_leases.sh
 rm -f $HOME/DNS_README
 sudo -u $USER cp $HOME/scripts/DNS_README $HOME/DNS_README
 
